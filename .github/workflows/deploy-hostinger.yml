@@ -19,14 +19,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Validate deployment secrets
+        run: |
+          if [ -z "${{ secrets.HOSTINGER_FTP_SERVER }}" ]; then
+            echo "::error::Missing HOSTINGER_FTP_SERVER"
+            exit 1
+          fi
+          if [ -z "${{ secrets.HOSTINGER_FTP_USERNAME }}" ]; then
+            echo "::error::Missing HOSTINGER_FTP_USERNAME"
+            exit 1
+          fi
+          if [ -z "${{ secrets.HOSTINGER_FTP_PASSWORD }}" ]; then
+            echo "::error::Missing HOSTINGER_FTP_PASSWORD"
+            exit 1
+          fi
+          if [ -z "${{ secrets.HOSTINGER_SERVER_DIR }}" ]; then
+            echo "::error::Missing HOSTINGER_SERVER_DIR"
+            exit 1
+          fi
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.HOSTINGER_FTP_SERVER }}
           username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
           password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
-          protocol: ftps
-          port: ${{ secrets.HOSTINGER_FTP_PORT }}
+          protocol: ${{ secrets.HOSTINGER_FTP_PROTOCOL || 'ftps' }}
+          port: ${{ secrets.HOSTINGER_FTP_PORT || 21 }}
           local-dir: ./
           server-dir: ${{ secrets.HOSTINGER_SERVER_DIR }}
           exclude: |

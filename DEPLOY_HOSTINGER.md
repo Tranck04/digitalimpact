@@ -17,6 +17,7 @@ Ajoute ces secrets:
 - HOSTINGER_FTP_SERVER: hote FTP Hostinger (ex: ftp.votredomaine.com)
 - HOSTINGER_FTP_USERNAME: utilisateur FTP
 - HOSTINGER_FTP_PASSWORD: mot de passe FTP
+- HOSTINGER_FTP_PROTOCOL: ftps (par defaut) ou ftp
 - HOSTINGER_FTP_PORT: port FTPS (generalement 21)
 - HOSTINGER_SERVER_DIR: dossier cible sur le serveur (ex: /public_html/)
 
@@ -44,9 +45,13 @@ Le workflow envoie le site statique et exclut automatiquement les dossiers/fichi
 
 ## 6) Si le deploiement echoue
 
-- Test 1: remplace protocol: ftps par protocol: ftp dans le workflow
-- Test 2: confirme le bon dossier cible (/public_html/)
-- Test 3: verifie les identifiants FTP dans Hostinger
+- Cas 530 Login incorrect: le serveur a refuse les identifiants.
+- Test 1: verifie que tu utilises un compte FTP cree dans Hostinger (pas le login hPanel).
+- Test 2: recopie le HOSTINGER_FTP_USERNAME exact depuis Hostinger FTP Accounts.
+- Test 3: regenere le mot de passe FTP, mets-le dans HOSTINGER_FTP_PASSWORD, relance le workflow.
+- Test 4: confirme le host FTP (souvent ftp.tondomaine.com ou l'hote fourni dans hPanel).
+- Test 5: garde le port 21 et essaye HOSTINGER_FTP_PROTOCOL=ftps puis ftp.
+- Test 6: confirme le bon dossier cible (/public_html/).
 
 ## 7) Cycle de travail ensuite
 
