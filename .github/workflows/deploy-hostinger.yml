@@ -41,6 +41,16 @@ jobs:
             exit 1
           fi
 
+      - name: Generate deployment metadata
+        run: |
+          cat > deploy-info.json <<EOF
+          {
+            "version": "build-${{ github.run_number }}",
+            "commit": "${{ github.sha }}",
+            "deployedAt": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          }
+          EOF
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

@@ -413,6 +413,16 @@ footer {
   gap: 12px;
 }
 
+.footer-meta {
+  display: grid;
+  gap: 4px;
+}
+
+.deployment-info {
+  font-size: 0.9rem;
+  color: #9b9b9b;
+}
+
 .socials {
   display: flex;
   gap: 10px;
