@@ -34,7 +34,7 @@ Declenchement:
 
 Le workflow envoie le site statique et exclut automatiquement les dossiers/fichiers de developpement:
 
-- excludes: .git, .github, .vscode, node_modules, _.md, _.zip, package.json, package-lock.json
+- excludes: .git, .github, .vscode, node*modules, *.md, \_.zip, package.json, package-lock.json
 
 ## 5) Premiere mise en route
 
