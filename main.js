@@ -41,34 +41,3 @@ for (const question of questions) {
     }
   });
 }
-
-const deploymentInfo = document.querySelector("#deployment-info");
-
-if (deploymentInfo) {
-  fetch("deploy-info.json", { cache: "no-store" })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("deploy-info unavailable");
-      }
-
-      return response.json();
-    })
-    .then((data) => {
-      const version = data.version || "Version inconnue";
-      const shortCommit = data.commit
-        ? String(data.commit).slice(0, 7)
-        : "inconnu";
-      const deployedAt = data.deployedAt
-        ? new Date(data.deployedAt).toLocaleString("fr-FR", {
-            dateStyle: "short",
-            timeStyle: "short",
-            timeZone: "UTC",
-          }) + " UTC"
-        : "Date inconnue";
-
-      deploymentInfo.textContent = `${version} • Déployé le ${deployedAt} • Commit ${shortCommit}`;
-    })
-    .catch(() => {
-      deploymentInfo.textContent = "Version locale";
-    });
-}

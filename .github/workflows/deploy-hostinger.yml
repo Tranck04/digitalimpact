@@ -41,15 +41,16 @@ jobs:
             exit 1
           fi
 
-      - name: Generate deployment metadata
+      - name: Inject deployment info into HTML
         run: |
-          cat > deploy-info.json <<EOF
-          {
-            "version": "build-${{ github.run_number }}",
-            "commit": "${{ github.sha }}",
-            "deployedAt": "$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          }
-          EOF
+          BUILD_VERSION="build-${{ github.run_number }}"
+          DEPLOY_DATE="$(date -u +'%d/%m/%Y %H:%M UTC')"
+          COMMIT_HASH="$(echo '${{ github.sha }}' | cut -c1-7)"
+          sed -i \
+            -e "s|__BUILD_VERSION__|${BUILD_VERSION}|g" \
+            -e "s|__DEPLOY_DATE__|${DEPLOY_DATE}|g" \
+            -e "s|__COMMIT_HASH__|${COMMIT_HASH}|g" \
+            index.html
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
